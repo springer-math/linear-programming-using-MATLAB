@@ -32,8 +32,6 @@ function [A, c, b, Eqin, MinMaxLP] = ...
 % -- MinMaxLP: the type of optimization
 
 [m, n] = size(A); % size of matrix A
-A = [A zeros(m, n)]; % preallocate matrix A
-c = [c; zeros(m, 1)]; % preallocate vector c
 % if the LP problem is a maximization problem, transform it 
 % to a minimization problem
 if MinMaxLP == 1
@@ -47,12 +45,14 @@ for i = 1:m
 	if Eqin(i) == -1
 		A(i, n + 1) = 1;
 		Eqin(i) = 0;
+        c(n + 1) = 0;
 		n = n + 1;
 	% transform constraints in the form 'greater than or
 	% equal to' to equality constraints
 	elseif Eqin(i) == 1
 		A(i, n + 1) = -1;
 		Eqin(i) = 0;
+        c(n + 1) = 0;
 		n = n + 1;
 	end
 end
